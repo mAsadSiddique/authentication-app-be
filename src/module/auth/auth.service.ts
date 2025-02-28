@@ -28,7 +28,6 @@ export class AuthService {
     password: string,
   ): Promise<any | undefined> {
     const user = await this.userService.findByUsername(userName);
-    console.log('user validation: ', user);
     if (user && user?.password === password) {
       const { password, ...rest } = user;
       return rest;

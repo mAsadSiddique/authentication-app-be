@@ -9,8 +9,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { LocalAuthGuard } from './module/auth/local-auth.guard';
-import { AuthenticationGuard } from './module/auth/authenticated.guard';
 import { AuthService } from './module/auth/auth.service';
 import { UserLogin } from './utils/types/user';
 import { AuthGuard } from './module/auth/Guard/auth.guard';
@@ -28,7 +26,6 @@ export class AppController {
   }
 
   // post login action...
-  // @UseGuards(LocalAuthGuard)
   @Post('login')
   @HttpCode(HttpStatus.OK)
   login(@Body() input: UserLogin): any {
