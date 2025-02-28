@@ -1,8 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { User } from 'src/utils/types/user';
+import { UserAuth } from '../auth/schema/auth.shema';
+import { InjectModel } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class UsersService {
+  constructor(
+    @InjectModel(UserAuth.name) private authModel: mongoose.Model<UserAuth>,
+  ) {}
+
   private readonly users: User[] = [
     {
       id: 1,
@@ -13,14 +20,21 @@ export class UsersService {
   ];
 
   // fetch users from db...
-  fetchUsers(): User[] {
+  async fetchUsers(): Promise<User[]> {
     // replace with actual implementation
-    return [];
+    const users: User[] = await this.authModel.find();
+    return users;
+  }
+
+  // add users to db...
+  async addUser(user: User): Promise<User> {
+    // replace with actual implementation
+    const createdUser = await this.authModel.create(user);
+    return createdUser;
   }
 
   // find by username...
   async findByUsername(username: string): Promise<User | undefined> {
-    console.log('objects found: ' + username);
     return this.users.find((user) => user.name === username);
   }
 }
